@@ -3,7 +3,7 @@ using System.Data;
 
 namespace ExcelUtils.Tests;
 
-public class TestsWithExcelFiles
+public class ExcelReadTest
 {
     public static string CurrentProject { get; } = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName 
         ?? throw new ArgumentNullException("Root not found.");
