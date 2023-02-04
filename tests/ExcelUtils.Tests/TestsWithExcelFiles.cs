@@ -25,7 +25,7 @@ public class TestsWithExcelFiles
 
         Assert.NotEmpty(modelEnumerable);
         
-        Assert.Collection(modelEnumerable, (model) =>
+        Assert.All(modelEnumerable, (model) =>
         {
             Assert.NotNull(model.Column1);
             Assert.NotNull(model.Column2);
