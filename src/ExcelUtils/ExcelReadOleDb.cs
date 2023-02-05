@@ -1,5 +1,4 @@
 using System.Data;
-using System.Text.Json;
 using System.Data.OleDb;
 
 namespace ExcelUtils;
@@ -12,12 +11,7 @@ public class ExcelReadOleDb
     {
         var dataTable = await ConvertExcelToDataTableAsync(fullPath, tableName);
 
-        string serializeddt = SerializeDataTable(dataTable);
-
-        if (string.IsNullOrEmpty(serializeddt))
-            return Enumerable.Empty<T>();
-
-        return JsonSerializer.Deserialize<IEnumerable<T>>(serializeddt)?.ToList() ??
+        return ConvertDataTable<T>(dataTable) ??
             throw new ArgumentNullException("Deserialize failed.");
     }
 
@@ -95,18 +89,21 @@ public class ExcelReadOleDb
         return connectionStringOleDb;
     }
 
-    public static string SerializeDataTable(DataTable dataTable)
+    private static IEnumerable<T> ConvertDataTable<T>(DataTable dataTable)
     {
         if (dataTable is null ||
             !dataTable.AsEnumerable().Any())
         {
-            return string.Empty;
+            return Enumerable.Empty<T>();
         }
 
         var data = dataTable.Rows.OfType<DataRow>()
-                    .Select(row => dataTable.Columns.OfType<DataColumn>()
-                        .ToDictionary(col => col.ColumnName, c => row[c]));
+            .Select(row => dataTable.Columns.OfType<DataColumn>()
+                .ToDictionary(col => col.ColumnName, c => row[c]));
+        
+        var jsonTextObject = System.Text.Json.JsonSerializer.Serialize(data);
 
-        return System.Text.Json.JsonSerializer.Serialize(data);
+        return System.Text.Json.JsonSerializer.Deserialize<IEnumerable<T>>(jsonTextObject)
+            ?? Enumerable.Empty<T>();
     }
 }

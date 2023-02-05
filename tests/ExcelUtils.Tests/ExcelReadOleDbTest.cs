@@ -3,6 +3,7 @@ using System.Data;
 
 namespace ExcelUtils.Tests;
 
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public class ExcelReadOleDbTest
 {
     public static string CurrentProject { get; } = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName 
