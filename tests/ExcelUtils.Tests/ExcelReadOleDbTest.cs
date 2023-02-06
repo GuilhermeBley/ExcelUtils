@@ -3,7 +3,6 @@ using System.Data;
 
 namespace ExcelUtils.Tests;
 
-[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public class ExcelReadOleDbTest
 {
     public static string CurrentProject { get; } = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName 
@@ -12,6 +11,7 @@ public class ExcelReadOleDbTest
     public static string Root => CurrentProject + "\\root\\";
 
     [Fact]
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public async Task ConvertExcelToDataTable_GetTableFromWorkSheet_Success()
     {
         var fullPath = GetRootFile("BookOneTable.xlsx");
@@ -23,6 +23,7 @@ public class ExcelReadOleDbTest
     }
 
     [Fact]
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
     public async Task ConvertExcel_GetTableFromWorkSheet_Success()
     {
         var fullPath = GetRootFile("BookOneTable.xlsx");

@@ -3,6 +3,7 @@ using System.Data.OleDb;
 
 namespace ExcelUtils;
 
+[System.Runtime.Versioning.SupportedOSPlatform("windows")]
 public class ExcelReadOleDb
 {
     public const string DefaultTable = "Sheet1$";
